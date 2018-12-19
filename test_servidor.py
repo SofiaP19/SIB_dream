@@ -11,3 +11,5 @@ import scipy
 import numpy
 import pandas
 import bs4
+
+print("sinto-me uma idiota!")
