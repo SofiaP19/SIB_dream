@@ -1,3 +1,2 @@
-pickle
 mol2vec
 gensim
