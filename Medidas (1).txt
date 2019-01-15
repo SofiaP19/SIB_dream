@@ -1,0 +1,22 @@
+- EXPLAINED VARIANCE SCORE: como é que o modelo explica a dispersão dos valores; 
+Melhor valor possível: 1 (valores mais baixos são piores)
+
+
+- MEAN ABSOLUTE ERROR: diferença entre duas variáveis contínuas (valores previstos e valores reais); 
+Sempre negativo, quanto mais baixo melhor.
+
+
+- MEAN SQUARED ERROR: medida de qualidade; 
+Sempre negativo, quanto mais perto de 0 melhor.
+
+
+- MEAN SQUARED LOG ERROR: retorna um valor negativo; 
+Melhor valor possível é 0.
+
+
+- MEDIAN ABSOLUTE ERROR: retorna um valor negativo;
+Melhor valor possível é 0.
+
+
+- R^2: explained variance/total variance; 
+Varia entre 0 e 100%; quanto mais alto, melhor o modelo explica os dados.
