@@ -72,8 +72,8 @@ data.to_csv('data/DtcDrugTargetInteractions_complete_to_train.csv', sep=',')
 print('\n TRAINING MODELS \n')
 
 #CREATE INSTANCES FOR THE MODEL CLASS
-dream = DreamMLModels(data,(10,5)) # 10 lines to the test set (5 to evaluate the final model)
-dream_feat_sel = DreamMLModels(data,(10,5), feature_selection=True)
+dream = DreamMLModels(data,(10000,3000)) # 10 lines to the test set (5 to evaluate the final model)
+dream_feat_sel = DreamMLModels(data,(10000,3000), feature_selection=True)
 
 #CREATE AND TEST MODELS
 #create and evaluate all the models
@@ -88,7 +88,7 @@ dream_feat_sel.create_test_eval('ALL')
 
 print('\n FEATURE SELECTION WITH RF \n')
 #Selecting the top features with random forests (only ProFet features)
-print(dream.RF_feature_selection(100,True))
+print(dream.RF_feature_selection(500,True))
 
 
 
