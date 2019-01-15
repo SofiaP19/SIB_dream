@@ -1,0 +1,17 @@
+
+Atribuídas:
+
+-Incluir código para otimização de parametros (Marta)
+-preparar servidor para correr (Sofia)
+-preparar ficheiros para correr no servidor (Marta)
+-pipline para submissão 'individual' (Marta se tiver tempo / todas porque devemos ter algum tempo para fazer isto enquanto as cenas correm no servidor na proxima semana)
+
+
+
+
+Por atribuir:
+
+-Procurar outras fromas de arranjar descritores para os compostos e proteinas
+-Preparar os jupyter notebooks para a apresentação
+
+
