@@ -105,10 +105,13 @@ class DreamMLModels:
         elif model_name == 'NNT':
             model = MLPRegressor()
             if param_opt:
-                param_nn = {"activation": ['identity', 'logistic', 'tanh', 'relu'],
-                            "solver": ["lbfgs", "sgd", "adam"],
-                            "learning_rate": ["constant", "invscaling", "adaptive"],
-                            "max_iter": stats.randint(1, 500)}
+                #param_nn = {"activation": ['identity', 'logistic', 'tanh', 'relu'],
+                            #"solver": ["lbfgs", "sgd", "adam"],
+                            #"learning_rate": ["constant", "invscaling", "adaptive"],
+                            #"max_iter": stats.randint(1, 500)}
+                param_nn = {'learning_rate': stats.uniform(0.001, 0.05),
+                            'hidden0__units': stats.randint(4, 12),
+                            'hidden0__type': ["Rectifier", "Sigmoid", "Tanh"]}
                 clf_nn = RandomizedSearchCV(model, param_distributions=param_nn, cv=5)
 
                 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -130,7 +133,9 @@ class DreamMLModels:
             model = SVR()
             if param_opt:
                 #parameters_svm = {'kernel': ('linear', 'rbf'), 'C': [1, 10]}
-                parameters_svm = {"C": stats.uniform(2, 10), "gamma": stats.uniform(0.1, 1)}
+                #parameters_svm = {"C": stats.uniform(2, 10), "gamma": stats.uniform(0.1, 1)}
+                parameters_svm = {"C": list(np.random.normal(1, 0.1, 5).astype(float)),
+                                  "gamma": list(np.random.uniform(0.0, 0.3, 5).astype(float))}
                 clf_svm = RandomizedSearchCV(model, param_distributions=parameters_svm, n_iter=20, cv=5)
                 clf_svm.fit(X_train, y_train)
                 self.SVM_model = clf_svm.best_estimator_
@@ -141,12 +146,12 @@ class DreamMLModels:
         else:
             model = RandomForestRegressor()
             if param_opt:
-                param_rf = {"max_depth": [3, 5],
-                              "max_features": stats.randint(1, 11),
-                              "min_samples_split": stats.randint(2, 11),
-                              "min_samples_leaf": stats.randint(1, 11),
-                              "bootstrap": [True, False]
-                              }
+                #param_rf = {"max_depth": [3, 5],
+                              #"max_features": stats.randint(1, 11),
+                              #"min_samples_split": stats.randint(2, 11),
+                              #"min_samples_leaf": stats.randint(1, 11),
+                              #"bootstrap": [True, False]}
+                param_rf = {'n_estimators': list(np.random.uniform(70, 80, 5).astype(int)), 'max_features': list(np.random.normal(6, 3, 5).astype(int))}
                 clf_rf = RandomizedSearchCV(model, param_distributions=param_rf, n_iter=20, cv=5)
                 clf_rf.fit(X_train, y_train)
                 self.RF_model = clf_rf.best_estimator_
@@ -293,7 +298,6 @@ def clean(data):
                   'standard_inchi',
                   'standard_inchi_key_chembl',
                   'sequence']
-
 
 
     data = data[[col for col in data.columns if col not in extra_cols]]
