@@ -45,9 +45,12 @@ def get_compound_descriptors(df, col_compound_id='compound_id', col_smiles='smil
                 dic = None
 
             if dic != None:
+                if dic['molecule_structures']['canonical_smiles'] != None:
                 #print(dic)
-                id_smiles[compound_id] = dic['molecule_structures']['canonical_smiles']
-                return id_smiles[compound_id]
+                    id_smiles[compound_id] = dic['molecule_structures']['canonical_smiles']
+                    return id_smiles[compound_id]
+                else:
+                    return np.nan    
             else:
                 return np.nan
 
