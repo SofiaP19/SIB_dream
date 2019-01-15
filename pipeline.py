@@ -7,7 +7,8 @@ start_time = time.time()/60
 
 # IMPORT DATA TO PANDAS OBEJECT:
 print('\n IMPORT DATA TO PANDAS OBEJECT \n')
-data = pd.read_csv('data/DtcDrugTargetInteractions.csv', sep=',')
+#data = pd.read_csv('data/DtcDrugTargetInteractions.csv', sep=',')
+data = pd.read_csv('data/DtcDrugTargetInteractions_kd_and_nm_only.csv', sep=',', index_col = 0)
 
 # a small one first to see if everithyng runs:
 #data = pd.read_csv('data/dreamInteractions_reduzido.csv', sep=',', index_col=0)
