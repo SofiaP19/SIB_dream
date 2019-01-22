@@ -66,7 +66,7 @@ def get_compound_descriptors(df, col_compound_id='compound_id', col_smiles='smil
     unique_compounds = finaldf[[col_compound_id, col_smiles]].drop_duplicates().dropna()
 
     # Generate one dataframe ($n$ by $2$ shape) for each molecular descriptor type.
-    descriptors = ['Morgan', 'MACCS', 'MolLogP', 'AtomPair'] #, '2Dfingerprint']#, 'TPSA']#['Morgan', 'MACCS', 'MolLogP']
+    descriptors = ['Morgan', 'MACCS', 'MolLogP']#, 'AtomPair'] #, '2Dfingerprint']#, 'TPSA']#['Morgan', 'MACCS', 'MolLogP']
 
     descriptor_dfs = list(map(lambda x: df_for_molecular_descriptors(unique_compounds, x, col_smiles), descriptors))
 
