@@ -47,6 +47,48 @@ def add_sequence_col(data, uniProtId_col_name):
     return data'''
 
 
+def get_domains_list(data, uniProtId_col_name='target_id'):
+
+    domains_list = []
+
+    def get_prot_domains(uniprotId):
+        url = 'http://www.uniprot.org/uniprot/' + uniprotId + '.xml'
+        try:
+            response = requests.get(url)
+        except:
+            return None
+
+        soup = BeautifulSoup(response.text, 'lxml')
+        # Domains
+        domains_value = []
+        domains = soup.findAll('feature', {'type': 'domain'})
+        for dom in domains:
+            if dom not in domains_list:
+                domains_list.append(dom['description'])
+                #domains_value.append(dom['description'])
+        return None
+
+    visited_ids = []
+
+    def get_values(line):
+        uniprotIds = line[uniProtId_col_name].split(',')
+        uniprotId = str(uniprotIds[0].strip())
+        # print(uniprotId)
+        # Get the values for sequence, go terms and domains
+        if uniprotId in visited_ids:
+            return None
+        else:
+            get_prot_domains(uniprotId)
+
+    data = data[~data[uniProtId_col_name].isnull()]
+    data.apply(get_values, axis=1)
+
+    #print(len(domains_list))
+    with open('data/Domains_list.pkl', 'wb') as f:
+        pickle.dump(domains_list, f)
+
+    return True
+
 def getUniProtInfo(uniprotId):
     url = 'http://www.uniprot.org/uniprot/' + uniprotId + '.xml'
     try:
@@ -61,16 +103,19 @@ def getUniProtInfo(uniprotId):
         if s.text:
             sequence_value = s.text.replace('\n', '')
     # GO terms
+    """
     gos_value = []
     gos = soup.findAll('dbreference', {'type': 'GO'})
     for go in gos:
-        gos_value.append(go['id'])
-        # Domains
+        gos_value.append(go['id'])"""
+    # Domains
     domains_value = []
     domains = soup.findAll('feature', {'type': 'domain'})
     for dom in domains:
         domains_value.append(dom['description'])
-    return (sequence_value, gos_value, domains_value)
+    return (sequence_value, domains_value)
+
+
 
 
 def add_uniprot_info_cols(data, uniProtId_col_name='target_id'):
@@ -80,8 +125,9 @@ def add_uniprot_info_cols(data, uniProtId_col_name='target_id'):
     :return:  -> data with extra columns sequence, go terms and domains
     """
     id_values = {}
+    """
     with open('data/GOterms_list.pkl', 'rb') as f:
-        GOterms_list = pickle.load(f)
+        GOterms_list = pickle.load(f)"""
 
     with open('data/Domains_list.pkl', 'rb') as f:
         Domains_list = pickle.load(f)
@@ -103,19 +149,20 @@ def add_uniprot_info_cols(data, uniProtId_col_name='target_id'):
             new_line['sequence'] = res[0]
 
             # ----GO terms
+            """
             for go in GOterms_list:
                 if go in res[1]:
                     new_line[go] = 1
                     res[1].remove(go)
                 else:
-                    new_line[go] = 0
+                    new_line[go] = 0"""
 
             # ----Domains
             # isto está a demorar bué, como otimizar??!
             for dom in Domains_list:
-                if dom in res[2]:
+                if dom in res[1]:
                     new_line[dom] = 1
-                    res[2].remove(dom)  # para ir diminuindo o tempo de procura
+                    res[1].remove(dom)  # para ir diminuindo o tempo de procura
                 else:
                     new_line[dom] = 0
             id_values[uniprotId] = new_line

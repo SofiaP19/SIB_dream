@@ -11,7 +11,7 @@ data = pd.read_csv('data/DtcDrugTargetInteractions.csv', sep=',')
 #data = pd.read_csv('data/DtcDrugTargetInteractions_kd_and_nm_only.csv', sep=',', index_col = 0)
 
 # a small one first to see if everything runs:
-#data = pd.read_csv('data/dreamInteractions_reduzido.csv', sep=',', index_col=0)
+data = pd.read_csv('data/dreamInteractions_reduzido.csv', sep=',', index_col=0)
 
 # ANALYZE THE DATA AND DELETE SOME ROWS WITHOUT INTEREST:
 print('\n ANALYZE THE DATA AND DELETE SOME ROWS WITHOUT INTEREST \n')
@@ -51,6 +51,9 @@ data = compound_descriptors.get_compound_descriptors(data, col_compound_id='comp
 
 # GET ENZYME SEQUENCES, GO TERMS AND DOMAINS
 print('\n GET ENZYME UNIPROT INFO \n')
+print('\n Generating a domains list...\n')
+enzyme_descriptors.get_domains_list(data, uniProtId_col_name='target_id')
+print('\n Adding sequnce and domains col... \n')
 data = enzyme_descriptors.add_uniprot_info_cols(data, 'target_id')
 
 # GET ENZYME FEATURES FROM SEQUENCES
